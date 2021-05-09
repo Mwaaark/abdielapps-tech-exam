@@ -36,6 +36,7 @@ export default function Signup() {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {});
+
     return unsubscribe;
   }, []);
 
