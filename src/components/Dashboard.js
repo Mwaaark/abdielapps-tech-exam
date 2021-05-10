@@ -4,7 +4,7 @@ import { useHistory } from "react-router";
 
 import { auth } from "../firebase/firebase.utils";
 
-export default function Dashboard() {
+export default function Dashboard({ currentUser }) {
   const history = useHistory();
 
   function logoutHandler() {
@@ -18,6 +18,9 @@ export default function Dashboard() {
       <Card>
         <Card.Body>
           <h2 className="text-center mb-4">Welcome to Dashboard</h2>
+          <p className="text-center">
+            Email: {currentUser && currentUser.email}
+          </p>
         </Card.Body>
       </Card>
       <div className="w-100 text-center mt-2">

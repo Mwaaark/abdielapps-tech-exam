@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import { Container } from "react-bootstrap";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import { auth } from "./firebase/firebase.utils";
 import Dashboard from "./components/Dashboard";
+import NotFound from "./components/NotFound";
 
 export default class App extends Component {
   constructor() {
@@ -21,7 +22,7 @@ export default class App extends Component {
     this.unsubscribeFromAuth = auth.onAuthStateChanged((user) => {
       this.setState({ currentUser: user });
 
-      console.log(user);
+      // console.log(user);
     });
   }
 
@@ -38,7 +39,7 @@ export default class App extends Component {
         <div className="w-100" style={{ maxWidth: "400px" }}>
           <Switch>
             <Route path="/dashboard">
-              <Dashboard />
+              <Dashboard currentUser={this.state.currentUser} />
             </Route>
             <Route path="/login">
               <Login />
@@ -47,7 +48,7 @@ export default class App extends Component {
               <Signup />
             </Route>
             <Route path="*">
-              <Redirect to="/login" />
+              <NotFound />
             </Route>
           </Switch>
         </div>
