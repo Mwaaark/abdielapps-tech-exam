@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import Signup from "./components/Signup";
 import Login from "./components/Login";
 import { Container } from "react-bootstrap";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import { auth } from "./firebase/firebase.utils";
 import Dashboard from "./components/Dashboard";
 import NotFound from "./components/NotFound";
+import AuthContext from "./context/auth-context";
 
 export default class App extends Component {
   constructor() {
@@ -37,20 +38,25 @@ export default class App extends Component {
         style={{ minHeight: "100vh" }}
       >
         <div className="w-100" style={{ maxWidth: "400px" }}>
-          <Switch>
-            <Route path="/dashboard">
-              <Dashboard currentUser={this.state.currentUser} />
-            </Route>
-            <Route path="/login">
-              <Login />
-            </Route>
-            <Route path="/signup">
-              <Signup />
-            </Route>
-            <Route path="*">
-              <NotFound />
-            </Route>
-          </Switch>
+          <AuthContext.Provider value={{ currentUser: this.state.currentUser }}>
+            <Switch>
+              <Route path="/" exact>
+                <Redirect to="/login" />
+              </Route>
+              <Route path="/dashboard">
+                <Dashboard />
+              </Route>
+              <Route path="/login">
+                <Login />
+              </Route>
+              <Route path="/signup">
+                <Signup />
+              </Route>
+              <Route path="*">
+                <NotFound />
+              </Route>
+            </Switch>
+          </AuthContext.Provider>
         </div>
       </Container>
     );
